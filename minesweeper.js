@@ -2,19 +2,55 @@ document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
 var board = {}
-board.cells = [
-  {row: 1, col: 1, isMine: false, isMarked: false, hidden: true},
-  {row: 1, col: 2, isMine: false, isMarked: false, hidden: true},
-  {row: 1, col: 3, isMine: true, isMarked: false, hidden: true},
+generateBoard(9)
+// board.cells = [
+//   {row: 1, col: 1, isMine: false, isMarked: false, hidden: true},
+//   {row: 1, col: 2, isMine: false, isMarked: false, hidden: true},
+//   {row: 1, col: 3, isMine: true, isMarked: false, hidden: true},
+//
+//   {row: 2, col: 1, isMine: false, isMarked: false, hidden: true},
+//   {row: 2, col: 2, isMine: false, isMarked: false, hidden: true},
+//   {row: 2, col: 3, isMine: true, isMarked: false, hidden: true},
+//
+//   {row: 3, col: 1, isMine: false, isMarked: false, hidden: true},
+//   {row: 3, col: 2, isMine: false, isMarked: false, hidden: true},
+//   {row: 3, col: 3, isMine: true, isMarked: false, hidden: true}
+//  ]
 
-  {row: 2, col: 1, isMine: false, isMarked: false, hidden: true},
-  {row: 2, col: 2, isMine: false, isMarked: false, hidden: true},
-  {row: 2, col: 3, isMine: true, isMarked: false, hidden: true},
+function generateBoard (numCells) {
+  board.cells = [numCells]
 
-  {row: 3, col: 1, isMine: false, isMarked: false, hidden: true},
-  {row: 3, col: 2, isMine: false, isMarked: false, hidden: true},
-  {row: 3, col: 3, isMine: true, isMarked: false, hidden: true}
- ]
+  index = 0
+  for(var i = 0; i < Math.sqrt(numCells); i++) {
+    for(var j = 0; j < Math.sqrt(numCells); j++) {
+      temp = {row: i+1, col: j+1, isMine: false, isMarked: false, hidden: false }
+      board.cells[index] = temp;
+      index++
+    }
+  }
+  generateMines(numCells)
+}
+
+// This function generates a random number of mines between a minimum of sq root of total cells
+// and half number of cells, it then randomly selects a cell to place a mine, reselecting if that cell
+// has been previously chosen
+function generateMines (numCells) {
+  minNumMines = Math.sqrt(numCells)
+  maxNumMines = Math.floor(numCells/2)
+
+  numMines = Math.floor((Math.random() * (maxNumMines - minNumMines + 1)) + minNumMines);
+
+  for (var x = 0; x < numMines; x++) {
+    var keepSearching = true
+    while(keepSearching) {
+      var randCell = Math.floor( (Math.random() * numCells) )
+      if(board.cells[randCell].isMine === false) {
+        board.cells[randCell].isMine = true;
+        keepSearching = false
+      }
+    }
+  }
+}
 
 function startGame () {
   // Don't remove this function call: it makes the game work!
@@ -22,7 +58,6 @@ function startGame () {
     board.cells[i].surroundingMines = countSurroundingMines(board.cells[i])
   }
   lib.initBoard()
-
 
   document.addEventListener('click', checkForWin)
   document.addEventListener('contextmenu', checkForWin)
@@ -43,7 +78,6 @@ function checkForWin () {
     if(board.cells[i].hidden === true && board.cells[i].isMine === false) {
       return
     }
-
   }
     lib.displayMessage('You win!')
 }
