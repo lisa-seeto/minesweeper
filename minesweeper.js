@@ -4,19 +4,7 @@ document.addEventListener('DOMContentLoaded', startGame)
 var board = {}
 numCells = 9
 generateBoard(numCells)
-// board.cells = [
-//   {row: 1, col: 1, isMine: false, isMarked: false, hidden: true},
-//   {row: 1, col: 2, isMine: false, isMarked: false, hidden: true},
-//   {row: 1, col: 3, isMine: true, isMarked: false, hidden: true},
-//
-//   {row: 2, col: 1, isMine: false, isMarked: false, hidden: true},
-//   {row: 2, col: 2, isMine: false, isMarked: false, hidden: true},
-//   {row: 2, col: 3, isMine: true, isMarked: false, hidden: true},
-//
-//   {row: 3, col: 1, isMine: false, isMarked: false, hidden: true},
-//   {row: 3, col: 2, isMine: false, isMarked: false, hidden: true},
-//   {row: 3, col: 3, isMine: true, isMarked: false, hidden: true}
-//  ]
+displayBoardInConsole()
 
 function generateBoard (numCells) {
   board.cells = [numCells]
@@ -53,6 +41,8 @@ function generateMines (numCells) {
   }
 }
 
+//This will reset the board by deleting the children (the cells) from the board parent node
+//It will then recreate the cells and call the startGame func
 function resetBoard() {
 
   var oldBoard = document.getElementsByClassName('board')[0]
@@ -61,7 +51,6 @@ function resetBoard() {
   }
   board.cells = []
   generateBoard(numCells)
-  console.log(board.cells)
   startGame()
 }
 
@@ -94,6 +83,7 @@ function checkForWin () {
     }
   }
   lib.displayMessage('You win!')
+  lib.playWinningSound()
 }
 
 // Define this function to count the number of mines around the cell
@@ -113,4 +103,23 @@ function countSurroundingMines (cell) {
     }
   }
   return count
+}
+
+//This function will display an ascii representation of the board with mines shown in X's
+function displayBoardInConsole() {
+  var boardDisplay = ""
+  var rowLength = Math.sqrt(numCells)
+
+  for (var i = 1; i <= numCells; i++) {
+    if(board.cells[i-1].isMine === true) {
+      boardDisplay += "[X]"
+    }
+    else {
+      boardDisplay += "[  ]"
+    }
+    if(i % rowLength === 0) {
+      boardDisplay += "\n"
+    }
+  }
+  console.log(boardDisplay)
 }
