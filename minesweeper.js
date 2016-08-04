@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
 var board = {}
-numCells = 9
+numCells = 16
 generateBoard(numCells)
 displayBoardInConsole()
 
@@ -52,6 +52,7 @@ function resetBoard() {
   board.cells = []
   generateBoard(numCells)
   startGame()
+  displayBoardInConsole()
 }
 
 function startGame () {
@@ -108,7 +109,7 @@ function countSurroundingMines (cell) {
 //This function will display an ascii representation of the board with mines shown in X's
 function displayBoardInConsole() {
   var boardDisplay = ""
-  var rowLength = Math.sqrt(numCells)
+  var rowLength = Math.ceil(Math.sqrt(numCells))
 
   for (var i = 1; i <= numCells; i++) {
     if(board.cells[i-1].isMine === true) {
