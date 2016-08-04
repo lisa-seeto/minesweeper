@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
 var board = {}
-generateBoard(9)
+numCells = 9
+generateBoard(numCells)
 // board.cells = [
 //   {row: 1, col: 1, isMine: false, isMarked: false, hidden: true},
 //   {row: 1, col: 2, isMine: false, isMarked: false, hidden: true},
@@ -23,7 +24,7 @@ function generateBoard (numCells) {
   index = 0
   for(var i = 0; i < Math.sqrt(numCells); i++) {
     for(var j = 0; j < Math.sqrt(numCells); j++) {
-      temp = {row: i+1, col: j+1, isMine: false, isMarked: false, hidden: false }
+      temp = {row: i+1, col: j+1, isMine: false, isMarked: false, hidden: true }
       board.cells[index] = temp;
       index++
     }
@@ -52,6 +53,18 @@ function generateMines (numCells) {
   }
 }
 
+function resetBoard() {
+
+  var oldBoard = document.getElementsByClassName('board')[0]
+  while(oldBoard.firstChild) {
+    oldBoard.removeChild(oldBoard.firstChild)
+  }
+  board.cells = []
+  generateBoard(numCells)
+  console.log(board.cells)
+  startGame()
+}
+
 function startGame () {
   // Don't remove this function call: it makes the game work!
   for (var i = 0; i < board.cells.length; i++) {
@@ -61,6 +74,7 @@ function startGame () {
 
   document.addEventListener('click', checkForWin)
   document.addEventListener('contextmenu', checkForWin)
+  document.getElementById('newGame').addEventListener('click', resetBoard)
 }
 
 // Define this function to look for a win condition:
@@ -79,7 +93,7 @@ function checkForWin () {
       return
     }
   }
-    lib.displayMessage('You win!')
+  lib.displayMessage('You win!')
 }
 
 // Define this function to count the number of mines around the cell
