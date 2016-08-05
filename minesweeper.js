@@ -2,7 +2,12 @@ document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
 var board = {}
-numCells = 16
+var easyNumCells = 9
+var mediumNumCells = 16
+var hardNumCells = 25
+
+var numCells = easyNumCells
+
 generateBoard(numCells)
 displayBoardInConsole()
 
@@ -18,6 +23,24 @@ function generateBoard (numCells) {
     }
   }
   generateMines(numCells)
+}
+
+// This function changes the difficulty level of the game (the number of cells in the board)
+//It then call the function reset board to get a new board
+function changeDifficulty() {
+
+  if(document.getElementById('easyLevel').checked) {
+    numCells = easyNumCells
+  }
+  if(document.getElementById('intermediateLevel').checked) {
+    numCells = mediumNumCells
+  }
+  if(document.getElementById('difficultLevel').checked) {
+    numCells = hardNumCells
+  }
+
+  resetBoard()
+
 }
 
 // This function generates a random number of mines between a minimum of sq root of total cells
@@ -65,6 +88,7 @@ function startGame () {
   document.addEventListener('click', checkForWin)
   document.addEventListener('contextmenu', checkForWin)
   document.getElementById('newGame').addEventListener('click', resetBoard)
+  document.getElementById('difficultyLevel').addEventListener('click', changeDifficulty)
 }
 
 // Define this function to look for a win condition:
