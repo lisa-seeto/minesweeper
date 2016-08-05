@@ -140,7 +140,7 @@ function displayBoardInConsole() {
       boardDisplay += "[X]"
     }
     else {
-      if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+      if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1 || navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         boardDisplay += "[ ]"
       }
       else {
