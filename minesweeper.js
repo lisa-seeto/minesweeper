@@ -140,7 +140,7 @@ function displayBoardInConsole() {
       boardDisplay += "[X]"
     }
     else {
-      boardDisplay += "[  ]"
+      boardDisplay += "[ ]"
     }
     if(i % rowLength === 0) {
       boardDisplay += "\n"
